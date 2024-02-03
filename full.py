@@ -155,16 +155,19 @@ colorList=["red","orange","yellow","green","blue","white"]
 while k<num_frames:
     t1 = time.time()
     coords=[]
-
-    r=volumeList[k] * 300/max_vol
+    r=(volumeList[k]//100000) +200
+    n=nList[k]
+    if n<3: n=3
     #color = freq_to_color(frequencyList[k])
+    rot+=0.05
 
     for i in range(n):
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
 
-    create_shape(C,coords,colorList[k%6])
+    C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
+    if k>30: C.delete(f"{k-30}")
     m.update()
     t2 = time.time()
     delta_t = t2 - t1

@@ -165,3 +165,141 @@ for i in range(0,framesTotal) :
     if volumeList3[i] < 50000:
         qualityList3[i] = 0
 #print(len(sampleList1d3))
+        
+import tkinter as tk
+import time
+import math
+
+def intToHex(n):
+    hexStr = ''
+    while n>0:
+        currDig = n%16
+        #currHex = ''
+        if currDig < 10:
+            currHex = f'{currDig}'
+        else:
+            currHex = chr(ord('A')+currDig-10)
+        hexStr = currHex + hexStr
+        n //= 16
+    
+    if len(hexStr) > 1:
+        return hexStr
+    elif len(hexStr) == 1:
+        return '0' + hexStr
+    else:
+        return '00'
+
+def frequencyToRGB(frequency):
+    if (frequency > 2000):
+        r,g,b = (0,0,255)
+    elif (frequency < 1000):
+        r,g,b = (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
+    else: 
+        r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
+    return '#' + intToHex(int(r)) + intToHex(int(g)) + intToHex(int(b))
+
+def volumeToRadius(n):
+    n=int(n)
+    if n < 2*10**6:
+        return 50
+    elif n > 7*10**6:
+        return 300
+    else:
+        return 50 + 50*(n-2*10**6)*10**-6
+
+def volumeToRadius2(n):
+    n=int(n)
+    if n < 2*10**6:
+        return 25
+    elif n > 7*10**6:
+        return 200
+    else:
+        return 20 + 35*(n-2*10**6)*10**-6
+
+# delay between successive frames in seconds
+animation_refresh_seconds = 1/30
+
+m = tk.Tk()
+m.geometry("700x700")
+m.title("Sound to Art Converter")
+C = tk.Canvas(m,width=700,height=700,background="black")
+C.pack()
+
+#starting number of points
+n1=3
+n2=3
+n3=3
+#starting radius in pixels
+r1=50
+r2=50
+r3=50
+#starting rotation factor
+rot1=0
+rot2=0
+rot3=0
+
+num_frames = len(volumeList1)
+max_vol = max(volumeList1)
+min_vol = min(volumeList1)
+#print(f"max vol is: {max_vol}")
+k=0
+colorList=["red","orange","yellow","green","blue","white"]
+while k<num_frames:
+    t1=time.time()
+    r1=volumeToRadius(volumeList1[k])
+    n1=nList1[k]
+    if n1<3: n1=3
+    color1 = frequencyToRGB(frequencyList1[k])
+    rot1+=0.05
+    if n1<3:n1=3
+
+    r2=volumeToRadius2(volumeList2[k])
+    n2=nList2[k]
+    if n2<3: n2=3
+    color2 = frequencyToRGB(frequencyList2[k])
+    rot2+=0.05
+    if n2<3:n2=3
+
+    r3=volumeToRadius2(volumeList3[k])
+    n3=nList3[k]
+    if n3<3: n3=3
+    color3 = frequencyToRGB(frequencyList3[k])
+    rot3+=0.05
+    if n3<3:n3=3
+
+    coords1=[]
+    coords2=[]
+    coords3=[]
+    for i in range(n1):
+        coords1.append(350+r1*math.cos((rot1+2*math.pi*i)/n1))
+        coords1.append(400+r1*math.sin((rot1+2*math.pi*i)/n1))
+    for i in range(n2):
+        coords2.append(200+r2*math.cos((rot2+2*math.pi*i)/n2))
+        coords2.append(200+r2*math.sin((rot2+2*math.pi*i)/n2))
+    for i in range(n3):
+        coords3.append(200+r3*math.cos((rot3+2*math.pi*i)/n3))
+        coords3.append(500+r3*math.sin((rot3+2*math.pi*i)/n3))
+
+    C.create_polygon(coords1, fill="", width=3, outline=colorList[k%6], tag=f"{k}1")
+    C.create_polygon(coords2, fill="", width=3, outline=colorList[k%6], tag=f"{k}2")
+    C.create_polygon(coords3, fill="", width=3, outline=colorList[k%6], tag=f"{k}3")
+    if k>30: 
+        C.delete(f"{k-30}1")
+        C.delete(f"{k-30}2")
+        C.delete(f"{k-30}3")
+        
+    m.update()
+    t2 = time.time()
+    delta_t = t2-t1
+    print(f"delta is {delta_t}")
+    if k>0:
+        if animation_refresh_seconds-delta_t > 0:
+            time.sleep(animation_refresh_seconds-delta_t)
+    else:
+        filename = "/Users/henrysiegel/Downloads/piano.wav"
+        wave_obj = sa.WaveObject.from_wave_file(filename)
+        play_obj = wave_obj.play()
+    k+=1
+
+
+m.mainloop()

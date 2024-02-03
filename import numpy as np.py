@@ -152,7 +152,7 @@ def volumeToRadius(n):
     elif n > 7*10**6:
         return 300
     else:
-        return 50 + 50(n-2*10**6)*10**-6
+        return 50 + 50*(n-2*10**6)*10**-6
 '''
 volume=how fast r increases
 frequency= color ~200-1000

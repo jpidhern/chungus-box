@@ -175,7 +175,7 @@ while k<num_frames:
             filename = "/Users/henrysiegel/Downloads/cfbc.wav"
             wave_obj = sa.WaveObject.from_wave_file(filename)
             play_obj = wave_obj.play()
-k+=1
+    k+=1
 
 
 m.mainloop()

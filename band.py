@@ -24,7 +24,6 @@ length = data1.shape[0] / samplerate1
 print(f"length = {length}s")
 fps = 30
 timePerFrame = 1/fps
-samplesLeft = data1.shape[0]
 samplesPerFrame = samplerate1//fps
 framesTotal = math.floor(fps*length) #imprecise?
 currentFrame = 0
@@ -74,14 +73,13 @@ while currentFrame != framesTotal :
     volumeList1.append(currentVolume)
     qualityList1.append(currentQuality)
     currentFrame=currentFrame+1
-frameList = []
 for i in range(0,framesTotal) :
-    frameList.append(i)
     if frequencyList1[i] < 50:
         volumeList1[i] = 0
     if volumeList1[i] < 50000:
         qualityList1[i] = 0
-
+#print(len(sampleList1d1))
+currentFrame = 0
 volumeList2 = []
 frequencyList2 = []
 nList2 = []
@@ -90,10 +88,12 @@ turningPointReady = True
 while currentFrame != framesTotal : 
     currentVolume = 0
     sampleList1d2 = []
+    
     for i in range(samplesPerFrame*currentFrame,samplesPerFrame*(currentFrame+1)):
         sampleList1d2.append(data2[i][0])
     for i in range(0,samplesPerFrame):
         currentVolume = currentVolume + np.abs(sampleList1d2[i])  #mono
+    #print(len(sampleList1d2))
     currentQuality = turningPointsSum(sampleList1d2)
     turningPtsPerFrameList = turningPoints(sampleList1d2)
     turningPtsPerFrame = 0
@@ -117,14 +117,13 @@ while currentFrame != framesTotal :
     volumeList2.append(currentVolume)
     qualityList2.append(currentQuality)
     currentFrame=currentFrame+1
-frameList = []
 for i in range(0,framesTotal) :
-    frameList.append(i)
+    #print(len(frequencyList2))
     if frequencyList2[i] < 50:
         volumeList2[i] = 0
     if volumeList2[i] < 50000:
         qualityList2[i] = 0
-
+currentFrame = 0
 volumeList3 = []
 frequencyList3 = []
 nList3 = []
@@ -160,10 +159,9 @@ while currentFrame != framesTotal :
     volumeList3.append(currentVolume)
     qualityList3.append(currentQuality)
     currentFrame=currentFrame+1
-frameList = []
 for i in range(0,framesTotal) :
-    frameList.append(i)
     if frequencyList3[i] < 50:
         volumeList3[i] = 0
     if volumeList3[i] < 50000:
         qualityList3[i] = 0
+#print(len(sampleList1d3))

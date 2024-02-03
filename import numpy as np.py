@@ -1,6 +1,10 @@
 import numpy as np
 import math
 from scipy.io import wavfile
+import time
+#import simpleaudio as sa
+#from threading import Thread
+
 
 #GOALS:
 #GENERATE A LIST OF FREQUENCY, VOLUME FOR EVERY FRAME
@@ -25,7 +29,6 @@ def turningPointsSum(lst):
 samplerate, data = wavfile.read("C:\\Users\\1234l\\Downloads\\piano.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\testingnowork.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\c scale.wav")
-
 #samplerate, data = wavfile.read("D:\\tartnhack\\track.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\Major Scale.wav")
 print(f"number of channels = {data.shape[1]}")
@@ -113,14 +116,43 @@ import tkinter as tk
 import time
 import math
 
-def frequencyToRGB(frequency):
-   if (frequency > 2000):
-      return (0,0,255)
-   elif (frequency < 1000):
-      return (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
-   else: 
-      return (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
+def intToHex(n):
+    hexStr = ''
+    while n>0:
+        currDig = n%16
+        #currHex = ''
+        if currDig < 10:
+            currHex = f'{currDig}'
+        else:
+            currHex = chr(ord('A')+currDig-10)
+        hexStr = currHex + hexStr
+        n //= 16
+    
+    if len(hexStr) > 1:
+        return hexStr
+    elif len(hexStr) == 1:
+        return '0' + hexStr
+    else:
+        return '00'
 
+
+def frequencyToRGB(frequency):
+    if (frequency > 2000):
+        r,g,b = (0,0,255)
+    elif (frequency < 1000):
+        r,g,b = (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
+    else: 
+        r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
+    return '#' + intToHex(int(r)) + intToHex(int(g)) + intToHex(int(b))
+
+def volumeToRadius(n):
+    n=int(n)
+    if n < 2*10**6:
+        return 50
+    elif n > 7*10**6:
+        return 300
+    else:
+        return 50 + 50(n-2*10**6)*10**-6
 '''
 volume=how fast r increases
 frequency= color ~200-1000
@@ -154,18 +186,16 @@ min_vol = min(volumeList)
 #print(f"max vol is: {max_vol}")
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
-print(volumeList)
 while k<num_frames:
     t1=time.time()
-    r=(volumeList[k]//100000) +200
-    print(f"r is {r}")
+    #r=(volumeList[k]) * (300/max_vol)
+    r=volumeToRadius(volumeList[k])
     n=nList[k]
     if n<3: n=3
-    #color = freq_to_color(frequencyList[k])
+    color = frequencyToRGB(frequencyList[k])
     rot+=0.05
     
     coords=[]
-    
     for i in range(n):
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
@@ -177,8 +207,8 @@ while k<num_frames:
     t2 = time.time()
     delta_t = t2-t1
     #print(f"delta is {delta_t}")
-    #if k>0: time.sleep(animation_refresh_seconds-delta_t)
-    time.sleep(animation_refresh_seconds)
+    if k>0: time.sleep(animation_refresh_seconds-delta_t)
+    else: time.sleep(animation_refresh_seconds)
     k+=1
 
 

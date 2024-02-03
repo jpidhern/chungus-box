@@ -29,7 +29,15 @@ def frequencyToRGB(frequency):
         r,g,b = (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
     else: 
         r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
-    return '#' + intToHex(r) + intToHex(g) + intToHex(b)
+    return '#' + intToHex(int(r)) + intToHex(int(g)) + intToHex(int(b))
+
+def volumeToRadius(n):
+    if n < 2*10**6:
+        return 50
+    elif n > 7*10**6:
+        return 300
+    else:
+        return 50 + 50(n-2*10**6)*10**-6
 '''
 volume=how fast r increases
 frequency= color ~200-1000
@@ -65,7 +73,8 @@ k=0
 colorList=["red","orange","yellow","green","blue","white"]
 while k<num_frames:
     t1=time.time()
-    r=(volumeList[k]) * (300/max_vol)
+    #r=(volumeList[k]) * (300/max_vol)
+    r=volumeToRadius(volumeList[k])
     n=nList[k]
     if n<3: n=3
     color = frequencyToRGB(frequencyList[k])

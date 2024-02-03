@@ -5,8 +5,8 @@ import math
 
 '''
 volume=how fast r increases
-frequency= color
-quality=saturation
+frequency= color ~200-1000
+quality=saturation ~400-1000
 nList= n. Not one to one. if nList between 20-30, n=6 for example
 maxPoints = fireworks??
 '''
@@ -29,7 +29,10 @@ dr=0
 #starting rotation factor
 rot=0
 drot=0.05
+
 num_frames = len(volumeList)
+max_vol = max(volumeList)
+min_vol = min(volumeList)
 
 def create_shape(Cv,coordList, color):
     Cv.create_polygon(coordList, fill="", width=3, outline=color)
@@ -38,12 +41,9 @@ k=0
 colorList=["red","orange","yellow","green","blue","white"]
 while k<num_frames:
     coords=[]
-    if k%10==0: 
-        n+=dn
-        r+=dr
-    else:
-        r+=dr
-    rot+=drot
+
+    r=volumeList[k] * 300/max_vol
+    #color = freq_to_color(frequencyList[k])
 
     for i in range(n):
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))

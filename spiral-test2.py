@@ -26,6 +26,7 @@ C.pack()
 n=3
 #radius in pixels
 r=50
+dr=-5
 #rotation factors
 rot=0
 
@@ -34,13 +35,16 @@ def create_shape(Cv,coordList, color):
 
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
-while k<70:
+while k<700:
     coords=[]
+    if r==300 or r==50: dr=-dr
     if k%10==0 : 
         n+=1
-        r+=5
+        r+=dr
     else:
-        r+=5
+        r+=dr
+    
+    print(r,dr)
     rot+=0.05
 
     for i in range(n):
@@ -48,7 +52,8 @@ while k<70:
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
 
-    create_shape(C,coords,colorList[k%6])
+    C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
+    if k>30: C.delete(f"{k-30}")
     m.update()
     time.sleep(animation_refresh_seconds)
     k+=1

@@ -226,9 +226,9 @@ def volumeToRadius2(n):
 animation_refresh_seconds = 1/30
 
 m = tk.Tk()
-m.geometry("700x700")
+m.geometry("1200x700")
 m.title("Sound to Art Converter")
-C = tk.Canvas(m,width=700,height=700,background="black")
+C = tk.Canvas(m,width=1200,height=700,background="black")
 C.pack()
 
 #starting number of points
@@ -277,18 +277,18 @@ while k<num_frames:
     coords2=[]
     coords3=[]
     for i in range(n1):
-        coords1.append(350+r1*math.cos((rot1+2*math.pi*i)/n1))
-        coords1.append(400+r1*math.sin((rot1+2*math.pi*i)/n1))
+        coords1.append(600+r1*math.cos((rot1+2*math.pi*i)/n1))
+        coords1.append(350+r1*math.sin((rot1+2*math.pi*i)/n1))
     for i in range(n2):
         coords2.append(200+r2*math.cos((rot2+2*math.pi*i)/n2))
-        coords2.append(200+r2*math.sin((rot2+2*math.pi*i)/n2))
+        coords2.append(350+r2*math.sin((rot2+2*math.pi*i)/n2))
     for i in range(n3):
-        coords3.append(200+r3*math.cos((rot3+2*math.pi*i)/n3))
-        coords3.append(500+r3*math.sin((rot3+2*math.pi*i)/n3))
+        coords3.append(1000+r3*math.cos((rot3+2*math.pi*i)/n3))
+        coords3.append(350+r3*math.sin((rot3+2*math.pi*i)/n3))
 
-    C.create_polygon(coords1, fill="", width=3, outline=colorList[k%6], tag=f"{k},1")
-    C.create_polygon(coords2, fill="", width=3, outline=colorList[k%6], tag=f"{k},2")
-    C.create_polygon(coords3, fill="", width=3, outline=colorList[k%6], tag=f"{k},3")
+    C.create_polygon(coords1, fill="", width=3, outline=color1, tag=f"{k},1")
+    C.create_polygon(coords2, fill="", width=3, outline=color2, tag=f"{k},2")
+    C.create_polygon(coords3, fill="", width=3, outline=color3, tag=f"{k},3")
     if k>30: 
         C.delete(f"{k-30},1")
         C.delete(f"{k-30},2")

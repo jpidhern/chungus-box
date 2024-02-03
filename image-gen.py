@@ -11,7 +11,7 @@ def intToHex(n):
             currHex = f'{currDig}'
         else:
             currHex = chr(ord('A')+currDig-10)
-        hexStr += currHex
+        hexStr = currHex + hexStr
         n //= 16
     
     if len(hexStr) > 1:

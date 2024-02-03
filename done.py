@@ -139,7 +139,7 @@ while currentFrame != framesTotal :
     currentVolume = 0
     sampleList1d3 = []
     for i in range(samplesPerFrame*currentFrame,samplesPerFrame*(currentFrame+1)):
-        sampleList1d3.append(data2[i][0])
+        sampleList1d3.append(data3[i][0])
     for i in range(0,samplesPerFrame):
         currentVolume = currentVolume + np.abs(sampleList1d3[i])  #mono
     currentQuality = turningPointsSum(sampleList1d3)
@@ -171,7 +171,7 @@ for i in range(0,framesTotal) :
     if volumeList3[i] < 50000:
         qualityList3[i] = 0
 #print(len(sampleList1d3))
-        
+
 import tkinter as tk
 import time
 import math

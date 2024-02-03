@@ -16,32 +16,34 @@ animation_refresh_seconds = 0.01
 
 m = tk.Tk()
 m.geometry("700x700")
-
-m.title("Hey")
-
+m.title("Sound to Art Converter")
 C = tk.Canvas(m,width=700,height=700,background="black")
 C.pack()
 
-#number of points
+#starting number of points
 n=3
-#radius in pixels
+dn=0
+#starting radius in pixels
 r=50
-#rotation factors
+dr=0
+#starting rotation factor
 rot=0
+drot=0.05
+num_frames = len(volumeList)
 
 def create_shape(Cv,coordList, color):
     Cv.create_polygon(coordList, fill="", width=3, outline=color)
 
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
-while k<70:
+while k<num_frames:
     coords=[]
-    if k%10==0 : 
-        n+=1
-        r+=5
+    if k%10==0: 
+        n+=dn
+        r+=dr
     else:
-        r+=5
-    rot+=0.05
+        r+=dr
+    rot+=drot
 
     for i in range(n):
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))

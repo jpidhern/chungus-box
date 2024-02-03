@@ -204,6 +204,16 @@ def frequencyToRGB(frequency):
         r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
     return '#' + intToHex(int(r)) + intToHex(int(g)) + intToHex(int(b))
 
+def frequencyToRGB_Inst(frequency):
+    if (frequency > 1500):
+        r,g,b = (0,0,255)
+    elif (frequency < 500):
+        r,g,b = (255-(frequency/500 * 255), (frequency/500 * 255), 0)
+    else: 
+        r,g,b = (0, 255-((frequency-500)/1000 * 255),  ((frequency-500)/1000 * 255))
+    return '#' + intToHex(int(r)) + intToHex(int(g)) + intToHex(int(b))
+
+
 def volumeToRadius(n):
     n=int(n)
     if n < 2*10**6:
@@ -262,14 +272,14 @@ while k<num_frames:
     r2=volumeToRadius2(volumeList2[k])
     n2=nList2[k]
     if n2<3: n2=3
-    color2 = frequencyToRGB(frequencyList2[k])
+    color2 = frequencyToRGB_Inst(frequencyList2[k])
     rot2+=0.05
     if n2<3:n2=3
 
     r3=volumeToRadius2(volumeList3[k])
     n3=nList3[k]
     if n3<3: n3=3
-    color3 = frequencyToRGB(frequencyList3[k])
+    color3 = frequencyToRGB_Inst(frequencyList3[k])
     rot3+=0.05
     if n3<3:n3=3
 
@@ -302,7 +312,7 @@ while k<num_frames:
         if animation_refresh_seconds-delta_t > 0:
             supersleep(animation_refresh_seconds-delta_t)
     else:
-        filename = "D:\\tartnhack\\full.wav"
+        filename = "D:\\tartnhack\\FIRST TAKE.wav"
         wave_obj = sa.WaveObject.from_wave_file(filename)
         play_obj = wave_obj.play()
     k+=1

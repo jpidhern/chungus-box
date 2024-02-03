@@ -4,7 +4,7 @@ from scipy.io import wavfile # get the api
 
 SAMPLE_RATE = 44100  # Hertz
 DURATION = 5  # Seconds
-_, data = wavfile.read("/Users/henrysiegel/Downloads/C.wav")
+_, data = wavfile.read('/Users/emilianozetune/Downloads/cfbc.wav')
 
 
 RGB = (255,255,255)

@@ -2,14 +2,34 @@ import tkinter as tk
 import time
 import math
 
-def frequencyToRGB(frequency):
-   if (frequency > 2000):
-      return (0,0,255)
-   elif (frequency < 1000):
-      return (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
-   else: 
-      return (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
+def intToHex(n):
+    hexStr = ''
+    while n>0:
+        currDig = n%16
+        #currHex = ''
+        if currDig < 10:
+            currHex = f'{currDig}'
+        else:
+            currHex = chr(ord('A')+currDig-10)
+        hexStr += currHex
+        n //= 16
+    
+    if len(hexStr) > 1:
+        return hexStr
+    elif len(hexStr) == 1:
+        return '0' + hexStr
+    else:
+        return '00'
 
+
+def frequencyToRGB(frequency):
+    if (frequency > 2000):
+        r,g,b = (0,0,255)
+    elif (frequency < 1000):
+        r,g,b = (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
+    else: 
+        r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
+    return '#' + intToHex(r) + intToHex(g) + intToHex(b)
 '''
 volume=how fast r increases
 frequency= color ~200-1000

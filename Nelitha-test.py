@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from scipy.io import wavfile
+
 #GOALS:
 #GENERATE A LIST OF FREQUENCY, VOLUME FOR EVERY FRAME
 def roots(lst):
@@ -113,6 +114,7 @@ import time
 import math
 
 
+
 '''
 volume=how fast r increases
 frequency= color ~200-1000
@@ -122,7 +124,7 @@ maxPoints = fireworks??
 '''
 
 # delay between successive frames in seconds
-animation_refresh_seconds = 0.01
+animation_refresh_seconds = 1/30
 
 m = tk.Tk()
 m.geometry("700x700")
@@ -147,6 +149,7 @@ min_vol = min(volumeList)
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
 while k<num_frames:
+    t1=time.time()
     r=(volumeList[k]) * (300/max_vol)
     n=nList[k]
     if n<3: n=3
@@ -159,9 +162,14 @@ while k<num_frames:
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
     C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
-    if k>60: C.delete(f"{k-60}")
+    if k>30: C.delete(f"{k-30}")
+    
     m.update()
-    time.sleep(animation_refresh_seconds)
+    t2 = time.time()
+    delta_t = t2-t1
+    #print(f"delta is {delta_t}")
+    if k>0: time.sleep(animation_refresh_seconds-delta_t)
+    else: time.sleep(animation_refresh_seconds)
     k+=1
 
 

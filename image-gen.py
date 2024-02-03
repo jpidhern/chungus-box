@@ -48,7 +48,7 @@ while k<num_frames:
     r=(volumeList[k]) * (300/max_vol)
     n=nList[k]
     if n<3: n=3
-    #color = freq_to_color(frequencyList[k])
+    color = frequencyToRGB(frequencyList[k])
     rot+=0.05
     
     coords=[]

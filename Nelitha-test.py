@@ -22,7 +22,7 @@ def turningPointsSum(lst):
 # print(data.shape[0])
 # n = 0
 #samplerate, data = wavfile.read("C:\\Users\\jackj\\OneDrive\\Documents\\sound files\\C.wav")
-samplerate, data = wavfile.read("C:\\Users\\1234l\\Downloads\\cfbc.wav")
+samplerate, data = wavfile.read("C:\\Users\\1234l\\Downloads\\piano.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\testingnowork.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\c scale.wav")
 
@@ -154,9 +154,11 @@ min_vol = min(volumeList)
 #print(f"max vol is: {max_vol}")
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
+print(volumeList)
 while k<num_frames:
     t1=time.time()
-    r=(volumeList[k]) * (300/max_vol)
+    r=(volumeList[k]//100000) +200
+    print(f"r is {r}")
     n=nList[k]
     if n<3: n=3
     #color = freq_to_color(frequencyList[k])
@@ -174,8 +176,8 @@ while k<num_frames:
     t2 = time.time()
     delta_t = t2-t1
     #print(f"delta is {delta_t}")
-    if k>0: time.sleep(animation_refresh_seconds-delta_t)
-    else: time.sleep(animation_refresh_seconds)
+    #if k>0: time.sleep(animation_refresh_seconds-delta_t)
+    time.sleep(animation_refresh_seconds)
     k+=1
 
 

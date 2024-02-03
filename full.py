@@ -1,6 +1,11 @@
 import numpy as np
 import math
 from scipy.io import wavfile
+import time
+import simpleaudio as sa
+from threading import Thread
+
+
 #GOALS:
 #GENERATE A LIST OF FREQUENCY, VOLUME FOR EVERY FRAME
 def roots(lst):
@@ -21,10 +26,9 @@ def turningPointsSum(lst):
 # print(data.shape[0])
 # n = 0
 #samplerate, data = wavfile.read("C:\\Users\\jackj\\OneDrive\\Documents\\sound files\\C.wav")
-samplerate, data = wavfile.read("D:\\tartnhack\\cfbc.wav")
+samplerate, data = wavfile.read("/Users/henrysiegel/Downloads/cfbc.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\testingnowork.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\c scale.wav")
-
 #samplerate, data = wavfile.read("D:\\tartnhack\\track.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\Major Scale.wav")
 print(f"number of channels = {data.shape[1]}")
@@ -121,7 +125,7 @@ maxPoints = fireworks??
 '''
 
 # delay between successive frames in seconds
-animation_refresh_seconds = 0.01
+animation_refresh_seconds = 1/30
 
 m = tk.Tk()
 m.geometry("700x700")
@@ -149,19 +153,29 @@ def create_shape(Cv,coordList, color):
 k=0
 colorList=["red","orange","yellow","green","blue","white"]
 while k<num_frames:
+    t1 = time.time()
     coords=[]
-
-    r=volumeList[k] * 300/max_vol
+    r=(volumeList[k]//100000) +200
+    n=nList[k]
+    if n<3: n=3
     #color = freq_to_color(frequencyList[k])
+    rot+=0.05
 
     for i in range(n):
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
 
-    create_shape(C,coords,colorList[k%6])
+    C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
+    if k>30: C.delete(f"{k-30}")
     m.update()
-    time.sleep(animation_refresh_seconds)
+    t2 = time.time()
+    delta_t = t2 - t1
+    if (k >= 1): time.sleep(animation_refresh_seconds-delta_t) 
+    else: 
+        filename = "/Users/henrysiegel/Downloads/cfbc.wav"
+        wave_obj = sa.WaveObject.from_wave_file(filename)
+        play_obj = wave_obj.play()
     k+=1
 
 

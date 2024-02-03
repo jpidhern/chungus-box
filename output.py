@@ -115,33 +115,13 @@ import tkinter as tk
 import time
 import math
 
-def intToHex(n):
-    hexStr = ''
-    while n>0:
-        currDig = n%16
-        #currHex = ''
-        if currDig < 10:
-            currHex = f'{currDig}'
-        else:
-            currHex = chr(ord('A')+currDig-10)
-        hexStr += currHex
-        n //= 16
-    
-    if len(hexStr) > 1:
-        return hexStr
-    elif len(hexStr) == 1:
-        return '0' + hexStr
-    else:
-        return '00'
-
 def frequencyToRGB(frequency):
-    if (frequency > 2000):
-        r,g,b = (0,0,255)
-    elif (frequency < 1000):
-        r,g,b = (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
-    else: 
-        r,g,b = (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
-    return '#' + intToHex(r) + intToHex(g) + intToHex(b)
+   if (frequency > 2000):
+      return (0,0,255)
+   elif (frequency < 1000):
+      return (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
+   else: 
+      return (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
 
 '''
 volume=how fast r increases
@@ -182,7 +162,7 @@ while k<num_frames:
     r=(volumeList[k]//100000) +200
     print(f"r is {r}")
     n=nList[k]
-    color = frequencyToRGB(frequencyList[k])
+    #color = freq_to_color(frequencyList[k])
     rot+=0.05
     if n<3:n=3
 
@@ -191,7 +171,7 @@ while k<num_frames:
         coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
         coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
-    C.create_polygon(coords, fill="", width=3, outline=color, tag=f"{k}")
+    C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
     if k>30: C.delete(f"{k-30}")
         
     m.update()

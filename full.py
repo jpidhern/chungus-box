@@ -24,6 +24,7 @@ def turningPointsSum(lst):
 samplerate, data = wavfile.read("D:\\tartnhack\\cfbc.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\testingnowork.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\c scale.wav")
+
 #samplerate, data = wavfile.read("D:\\tartnhack\\track.wav")
 #samplerate, data = wavfile.read("D:\\tartnhack\\Major Scale.wav")
 print(f"number of channels = {data.shape[1]}")

@@ -113,7 +113,13 @@ import tkinter as tk
 import time
 import math
 
-
+def frequencyToRGB(frequency):
+   if (frequency > 2000):
+      return (0,0,255)
+   elif (frequency < 1000):
+      return (255-(frequency/1000 * 255), (frequency/1000 * 255), 0)
+   else: 
+      return (0, 255-((frequency-1000)/1000 * 255),  ((frequency-1000)/1000 * 255))
 
 '''
 volume=how fast r increases

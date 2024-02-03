@@ -157,26 +157,25 @@ while k<num_frames:
     coords=[]
     r=(volumeList[k]//100000) +200
     n=nList[k]
-    if n<3: n=3
     #color = freq_to_color(frequencyList[k])
     rot+=0.05
+    if n>3: 
+        for i in range(n):
+            coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
+            coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
-    for i in range(n):
-        coords.append(350+r*math.cos((rot+2*math.pi*i)/n))
-        coords.append(350+r*math.sin((rot+2*math.pi*i)/n))
 
-
-    C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
-    if k>30: C.delete(f"{k-30}")
-    m.update()
-    t2 = time.time()
-    delta_t = t2 - t1
-    if (k >= 1): time.sleep(animation_refresh_seconds-delta_t) 
-    else: 
-        filename = "/Users/henrysiegel/Downloads/cfbc.wav"
-        wave_obj = sa.WaveObject.from_wave_file(filename)
-        play_obj = wave_obj.play()
-    k+=1
+        C.create_polygon(coords, fill="", width=3, outline=colorList[k%6], tag=f"{k}")
+        if k>30: C.delete(f"{k-30}")
+        m.update()
+        t2 = time.time()
+        delta_t = t2 - t1
+        if (k >= 1): time.sleep(animation_refresh_seconds-delta_t) 
+        else: 
+            filename = "/Users/henrysiegel/Downloads/cfbc.wav"
+            wave_obj = sa.WaveObject.from_wave_file(filename)
+            play_obj = wave_obj.play()
+k+=1
 
 
 m.mainloop()
